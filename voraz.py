@@ -40,7 +40,9 @@ def voraz():
                 else: False
         if asignaturas[asignatura] == 0:
                         band = True
-
+    return asignacion
+"""
     # Imprimir la asignación final
     for estudiante, asignaturas_asignadas in asignacion.items():
         print(f"Estudiante {estudiante} recibió las asignaturas: {asignaturas_asignadas}")
+"""
