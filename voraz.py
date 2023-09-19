@@ -1,3 +1,5 @@
+from insatisfaccion import insaEstudiante
+from noAsigno import elimtupla
 # Datos de entrada
 M = [("M1", 3), ("M2", 4), ("M3", 1)]
 E = [("e1", "ms1"), ("e2", "ms2"), ("e3", "ms3"), ("e4", "ms4"), ("e5", "ms5")]
@@ -15,8 +17,7 @@ def voraz():
 
 
     asignaturas_prioritarias = {estudiante: sorted(ms, key=lambda x: x[1], reverse=True) for estudiante, ms in zip(estudiantes.keys(), [ms1, ms2, ms3, ms4, ms5])}
-    #prioridad más alta entre todos los estudiantes
-    prioridad_maxima = max(max(ms, key=lambda x: x[1])[1] for ms in [ms1, ms2, ms3, ms4, ms5])
+    asigxcomprobacion = asignaturas_prioritarias
     # Crear una lista de estudiantes ordenados por prioridad descendente
     estudiantes_ordenados = sorted(estudiantes.keys(), key=lambda estudiante: max(asignaturas_prioritarias[estudiante], key=lambda x: x[1])[1], reverse=True)
     # Inicializar un diccionario de asignación vacío para cada estudiante
@@ -27,20 +28,24 @@ def voraz():
     band = False
     while band == False:
         cont = -1
-        for estudiante in estudiantes_ordenados:
+        for estudiante in estudiantes_ordenados: 
             asignaturas_solicitadas = asignaturas_prioritarias[estudiante]
             for asignatura, prioridad in asignaturas_solicitadas:
-                cont = cont + 1
+                cont+=1
                 if prioridad >= max(todas_las_prioridades):
                     todas_las_prioridades[cont] = 0
                     if asignaturas[asignatura] > 0:
                         if asignatura not in asignacion[estudiante]:
                             asignacion[estudiante].append(asignatura)
                             asignaturas[asignatura] -= 1
-                else: False
+                            #print(type(tuple((asignatura,prioridad))))
+                            #print(type(asigxcomprobacion[estudiante]))
+                            elimtupla(asigxcomprobacion,estudiante,tuple((asignatura,prioridad)))
         if asignaturas[asignatura] == 0:
                         band = True
+    print(asigxcomprobacion)
     return asignacion
+
 """
     # Imprimir la asignación final
     for estudiante, asignaturas_asignadas in asignacion.items():
