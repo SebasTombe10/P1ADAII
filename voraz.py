@@ -1,5 +1,6 @@
 from insatisfaccion import insaEstudiante
-from noAsigno import elimtupla
+from noAsigno import prioridadesNoAsignadas
+import copy
 # Datos de entrada
 M = [("M1", 3), ("M2", 4), ("M3", 1)]
 E = [("e1", "ms1"), ("e2", "ms2"), ("e3", "ms3"), ("e4", "ms4"), ("e5", "ms5")]
@@ -17,7 +18,7 @@ def voraz():
 
 
     asignaturas_prioritarias = {estudiante: sorted(ms, key=lambda x: x[1], reverse=True) for estudiante, ms in zip(estudiantes.keys(), [ms1, ms2, ms3, ms4, ms5])}
-    asigxcomprobacion = asignaturas_prioritarias
+    ta = copy.deepcopy(asignaturas_prioritarias)
     # Crear una lista de estudiantes ordenados por prioridad descendente
     estudiantes_ordenados = sorted(estudiantes.keys(), key=lambda estudiante: max(asignaturas_prioritarias[estudiante], key=lambda x: x[1])[1], reverse=True)
     # Inicializar un diccionario de asignación vacío para cada estudiante
@@ -38,12 +39,11 @@ def voraz():
                         if asignatura not in asignacion[estudiante]:
                             asignacion[estudiante].append(asignatura)
                             asignaturas[asignatura] -= 1
-                            #print(type(tuple((asignatura,prioridad))))
-                            #print(type(asigxcomprobacion[estudiante]))
-                            elimtupla(asigxcomprobacion,estudiante,tuple((asignatura,prioridad)))
         if asignaturas[asignatura] == 0:
                         band = True
-    print(asigxcomprobacion)
+    noAsignados = prioridadesNoAsignadas(asignacion,ta)
+    insaEstudiante(asignacion,asignaturas_prioritarias,noAsignados)
+          
     return asignacion
 
 """
