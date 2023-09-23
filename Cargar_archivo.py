@@ -13,26 +13,26 @@ def cargar():
         # Abrimos el archivo y lo imprimimos en la consola
         with open(ruta_archivo, 'r') as archivo:
             archivo_dos = archivo.readlines()
-
             #Diccionario para almacenar las asignaturas y los estudiantes con sus peticiones
             materias = {}
             estudiantes = {}
             
             #Bucle para inicializar el diccionario de las asignaturas
             for i in range(1,(int(archivo_dos[0])+1)):
-                materia = archivo_dos[i].split(',')
+                materia = archivo_dos[i].replace("\n", "").split(',')
                 materias[materia[0]] = materia[1]
-                # print(archivo_dos[i])
-
+                print(archivo_dos[i])
+            
+            print(materias)
             #Cantidad de estudiantes que solicitan materias
             cantEstudiantes = (archivo_dos[int(archivo_dos[0])+1])
-            print(cantEstudiantes)
+            #print(cantEstudiantes)
             
             #Contador de prueba
             cont=(int(archivo_dos[0])+2)
             cont_dos= cont
-            print("contador: "+str(cont))
-            print(type(cont))
+            #print("contador: "+str(cont))
+            #print(type(cont))
 
             #Bucle para inicializar el diccinario de estudiantes 
             for j in archivo_dos[(int(archivo_dos[0])+2):]:
@@ -47,10 +47,10 @@ def cargar():
                 
                 estudiantes[estudiante[0]] = asignaturas
 
-            print(estudiantes)
+            #print(estudiantes)
                            
 
             
             # for line in archivo: 
-                 
-            
+                
+        
