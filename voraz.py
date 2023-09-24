@@ -1,53 +1,31 @@
 from insatisfaccion import insaEstudiante
-from noAsigno import prioridadesNoAsignadas
 import copy
-# Datos de entrada
-M = [("M1", 3), ("M2", 4), ("M3", 1)]
-E = [("e1", "ms1"), ("e2", "ms2"), ("e3", "ms3"), ("e4", "ms4"), ("e5", "ms5")]
-ms1 = [("M1", 5), ("M2", 2), ("M3", 1)]
-ms2 = [("M1", 4), ("M2", 1), ("M3", 3)]
-ms3 = [("M2", 3), ("M3", 2)]
-ms4 = [("M1", 2), ("M3", 3)]
-ms5 = [("M1", 3), ("M2", 2), ("M3", 3)]
 
-def voraz():
+def voraz(d):
     # clave cod asig : valor cupo asign
-    asignaturas = dict(M)
-    #clave cod estudiante : valor conjunto de asig soli
-    estudiantes = dict(E)
+    asignaturas,dicestudiantes = d
+    ta = copy.deepcopy(dicestudiantes)
+    asignadas = {estudiante: [] for estudiante in dicestudiantes.keys()}
+    prioridades = [prioridad for estudiante in dicestudiantes.keys() for _, prioridad in dicestudiantes[estudiante]]
+    while True:
+        for estudiante in dicestudiantes:
+            asignaturas_solicitadas = dicestudiantes[estudiante]
+            for codigo,prioridad in asignaturas_solicitadas:
+                if prioridad >= max(prioridades):
+                    max_prioridad = max(prioridades)
+                    prioridades = [0 if p == max_prioridad else p for p in prioridades]  # Reemplaza la prioridad máxima por cero
+                    if asignaturas[codigo] > 0:
+                        if codigo not in asignadas[estudiante]:
+                            asignadas[estudiante].append(codigo)
+                            lista_asignatura_solicitada = dicestudiantes[estudiante]
+                            lista_asignatura_solicitada.remove((codigo,prioridad))
+                            asignaturas[codigo] = asignaturas[codigo]-1
+        if all(valor == 0 for valor in asignaturas.values()):break
+    suma_prioridad_no_asignadas = []
 
+    for lista_de_tuplas in dicestudiantes.values():
+        suma = sum(valor for _, valor in lista_de_tuplas)
+        suma_prioridad_no_asignadas.append(suma)
 
-    asignaturas_prioritarias = {estudiante: sorted(ms, key=lambda x: x[1], reverse=True) for estudiante, ms in zip(estudiantes.keys(), [ms1, ms2, ms3, ms4, ms5])}
-    ta = copy.deepcopy(asignaturas_prioritarias)
-    # Crear una lista de estudiantes ordenados por prioridad descendente
-    estudiantes_ordenados = sorted(estudiantes.keys(), key=lambda estudiante: max(asignaturas_prioritarias[estudiante], key=lambda x: x[1])[1], reverse=True)
-    # Inicializar un diccionario de asignación vacío para cada estudiante
-    asignacion = {estudiante: [] for estudiante in estudiantes.keys()}
-    # Crear una lista con todas las prioridades
-    todas_las_prioridades = [prioridad for estudiante in estudiantes.keys() for _, prioridad in asignaturas_prioritarias[estudiante]]
-    # Asignar las asignaturas a los estudiantes en orden de prioridad
-    band = False
-    while band == False:
-        cont = -1
-        for estudiante in estudiantes_ordenados: 
-            asignaturas_solicitadas = asignaturas_prioritarias[estudiante]
-            for asignatura, prioridad in asignaturas_solicitadas:
-                cont+=1
-                if prioridad >= max(todas_las_prioridades):
-                    todas_las_prioridades[cont] = 0
-                    if asignaturas[asignatura] > 0:
-                        if asignatura not in asignacion[estudiante]:
-                            asignacion[estudiante].append(asignatura)
-                            asignaturas[asignatura] -= 1
-        if asignaturas[asignatura] == 0:
-                        band = True
-    noAsignados = prioridadesNoAsignadas(asignacion,ta)
-    insaEstudiante(asignacion,asignaturas_prioritarias,noAsignados)
-          
-    return asignacion
-
-"""
-    # Imprimir la asignación final
-    for estudiante, asignaturas_asignadas in asignacion.items():
-        print(f"Estudiante {estudiante} recibió las asignaturas: {asignaturas_asignadas}")
-"""
+    insaEstudiante(asignadas,ta,suma_prioridad_no_asignadas)
+    return asignadas

@@ -17,7 +17,7 @@ def cargar():
             while True:
                 asigPrincipal = archivo.readline().strip()
                 p_asigP = asigPrincipal.split(",")
-                r_asigP = (p_asigP[0],p_asigP[1])
+                r_asigP = (p_asigP[0],int(p_asigP[1]))
                 asignaturas.append(r_asigP)
                 if len(asignaturas) == int(cantidadAsignaturas):
                     break
@@ -28,20 +28,19 @@ def cargar():
             while True:
                 estudiante = archivo.readline()
                 p_est = estudiante.split(",")
-                r_est = (int(p_est[0]),int(p_est[1]))
+                r_est = (p_est[0],int(p_est[1]))
                 asignaturasSolicitadas = r_est[1]
                 codEstudiante = r_est[0]
                 listAsignaturas=[]
                 while True:
                     asignatura = archivo.readline()
                     p_asig = asignatura.split(",")
-                    r_asig = (int(p_asig[0]),int(p_asig[1]))
+                    r_asig = (p_asig[0],int(p_asig[1]))
                     listAsignaturas.append(r_asig)
                     asignaturasSolicitadas = asignaturasSolicitadas-1
                     if asignaturasSolicitadas == 0: break
                 estudiantes[codEstudiante] = listAsignaturas
                 cs=cs-1
                 if cs == 0: break
-            print(dicAsignaturas)
-            print(estudiantes)
+            return dicAsignaturas,estudiantes
             
