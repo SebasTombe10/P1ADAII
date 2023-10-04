@@ -1,5 +1,7 @@
-listres=[]
+
 def insaEstudiante(ma,ms,P):
+    listres=[]
+    insatisfaccion = 0
     listma = [len(lista) for lista in ma.values()]
     listms = [len(lista1) for lista1 in ms.values()]
     c=0
@@ -13,4 +15,4 @@ def insaEstudiante(ma,ms,P):
     
     suma_general = sum(listres)
     insatisfaccion = suma_general/len(P)
-    print(insatisfaccion)
+    return insatisfaccion

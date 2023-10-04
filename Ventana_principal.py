@@ -15,6 +15,7 @@ def capROC():
 def capVoraz():
     global resultados_capROC
     resVoraz = voraz(resultados_capROC)
+    print(resVoraz)
     mostrar_resultados(resVoraz)
 def capDinamica():
     memo_escogencias = {'definidos': {}, 'indefinidos': {}}
