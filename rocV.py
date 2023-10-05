@@ -30,6 +30,7 @@ def voraz(d):
                             lista_asignatura_solicitada = dicestudiantes[estudiante]
                             lista_asignatura_solicitada.remove((codigo,prioridad))
                             asignaturas[codigo] = asignaturas[codigo]-1
+                            break
             
         if all(valor == 0 for valor in asignaturas.values()):break
     suma_prioridad_no_asignadas = []
