@@ -1,6 +1,6 @@
 from Cargar_archivo import cargar1
 from cargar import cargar
-from voraz import voraz
+from rocV import voraz
 from dinamica import dinamica
 from dinamica1 import dinamica1
 from tkinter import *
