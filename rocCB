@@ -1,0 +1,144 @@
+import numpy as np
+import itertools
+
+def procesar_entradas(nombre_archivo):
+    with open(nombre_archivo, "r") as f:
+        # Leer el número de materias (k)
+        k = int(f.readline().strip())
+        
+        # Leer las materias y sus cupos
+        materias_disponibles = {}
+        for _ in range(k):
+            linea = f.readline().strip()
+            materia, cupo = linea.split(',')
+            materias_disponibles[materia] = int(cupo)
+     
+        # Leer el número de estudiantes (r)
+        r = int(f.readline().strip())
+        
+        # Leer las solicitudes de matriculación de estudiantes
+        solicitudes_estudiantes = []
+        for _ in range(r):
+            linea_estudiante = f.readline().strip().split(',')
+            codigo_estudiante, sj = linea_estudiante[0], linea_estudiante[1]
+            sj = int(sj)
+            # Asegurarse de que sj esté en el rango de 1 a 7
+            sj = max(1, min(sj, 7))
+            solicitud_estudiante = {"codigo_estudiante": codigo_estudiante, "solicitud": []}
+
+            # Utilizar un conjunto para rastrear las materias ya solicitadas
+            materias_solicitadas = set()
+            
+            for _ in range(sj):
+                linea_solicitud = f.readline().strip().split(',')
+                materia_solicitada, prioridad = linea_solicitud
+
+                if materia_solicitada not in materias_solicitadas:
+                    solicitud_estudiante["solicitud"].append((materia_solicitada, int(prioridad)))
+                    materias_solicitadas.add(materia_solicitada)
+            
+            solicitudes_estudiantes.append(solicitud_estudiante)
+
+         
+    return materias_disponibles, solicitudes_estudiantes
+res = procesar_entradas('pruebacorta.txt')
+todas_las_solicitudes =[]
+# for est in res[1]:
+#     todas_las_solicitudes.add({codigo_estudiante: res.codigo_estudiante, })
+#     print(est)  
+
+estudiantes = res[1]
+nuevos_estudiantes = []
+
+# Recorrer la lista de estudiantes y sus solicitudes
+for estudiante in estudiantes:
+    codigo_estudiante = estudiante['codigo_estudiante']
+    for solicitud in estudiante['solicitud']:
+        codigo_materia, prioridad = solicitud
+        nuevo_estudiante = {
+            'codigo_estudiante': codigo_estudiante,
+            'codigo_materia': codigo_materia,
+            'prioridad': prioridad,
+            'asignada': False
+        }
+        nuevos_estudiantes.append(nuevo_estudiante)
+
+print(nuevos_estudiantes)
+materias_solicitadas = nuevos_estudiantes
+
+# Obtener todas las posibles variaciones de asignada
+variaciones_asignada = list(itertools.product([True, False], repeat=len(materias_solicitadas)))
+
+# Lista para almacenar las variaciones de materias solicitadas
+variaciones_materias = []
+
+# Generar las variaciones de materias solicitadas
+for variacion in variaciones_asignada:
+    variacion_materias = []
+    for i, materia in enumerate(materias_solicitadas):
+        nueva_materia = materia.copy()
+        nueva_materia['asignada'] = variacion[i]
+        variacion_materias.append(nueva_materia)
+    variaciones_materias.append(variacion_materias)
+
+# Imprimir las variaciones de materias solicitadas
+print('variaciiones posibles: ', len(variaciones_materias))
+# for variacion in variaciones_materias:
+#     print(variacion)
+
+def calcular_Lx(num_materias_solicitadas):
+    return 3 * num_materias_solicitadas - 1
+
+def calcular_informacion_estudiante(variacion_materias):
+# Diccionario para almacenar la información de cada estudiante
+    diccionario_estudiantes = {}
+
+    # Iterar sobre las solicitudes de estudiantes
+    for solicitud in variacion_materias:
+        codigo_estudiante = solicitud['codigo_estudiante']
+        asignada = solicitud['asignada']
+        prioridad = solicitud['prioridad']
+        
+        # Inicializar el diccionario del estudiante si no existe
+        if codigo_estudiante not in diccionario_estudiantes:
+            diccionario_estudiantes[codigo_estudiante] = {
+                'num_materias_solicitadas': 0,
+                'num_materias_asignadas': 0,
+                'sum_prioridades_no_asignadas': 0
+            }
+        
+        # Actualizar los atributos del estudiante
+        diccionario_estudiantes[codigo_estudiante]['num_materias_solicitadas'] += 1
+        if asignada:
+            diccionario_estudiantes[codigo_estudiante]['num_materias_asignadas'] += 1
+        else:
+            diccionario_estudiantes[codigo_estudiante]['sum_prioridades_no_asignadas'] += prioridad
+
+        num_materias_solicitadas = diccionario_estudiantes[codigo_estudiante]['num_materias_solicitadas']
+        diccionario_estudiantes[codigo_estudiante]['Lx'] = calcular_Lx(num_materias_solicitadas)
+
+    #for codigo_estudiante in diccionario_estudiantes:
+        
+        diccionario_estudiantes[codigo_estudiante]['insatisfaccion'] =  (1 - (diccionario_estudiantes[codigo_estudiante]['num_materias_asignadas'] / diccionario_estudiantes[codigo_estudiante]['num_materias_solicitadas'] )) * (diccionario_estudiantes[codigo_estudiante]['sum_prioridades_no_asignadas'] / diccionario_estudiantes[codigo_estudiante]['Lx'])
+        
+
+    suma_total_insatisfacciones = sum(estudiante['insatisfaccion'] for estudiante in diccionario_estudiantes.values())
+    numero_estudiantes = len(diccionario_estudiantes.values())
+    promedio_total = suma_total_insatisfacciones / numero_estudiantes
+
+    return promedio_total
+
+promedio_total = calcular_informacion_estudiante(variacion_materias)
+
+
+mejor_promedio = 1
+mejor_variacion = None
+
+for variacion in variaciones_materias:
+        actual_promedio = calcular_informacion_estudiante(variacion)
+        if mejor_promedio > actual_promedio:
+            mejor_variacion = variacion
+            mejor_promedio = actual_promedio
+
+# Imprimir el mejor promedio de insatisfacción y la mejor variación
+print("Mejor promedio de insatisfacción:", mejor_promedio)
