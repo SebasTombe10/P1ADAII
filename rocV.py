@@ -11,7 +11,6 @@ def voraz(d):
         #Los chances que tiene cada estudiante para obtener una asifnatura
         chances = {}
         for estudiantes_chances in dicestudiantes:
-            print("x")
             suma = 0
             asignaturas_solicitadas_chances = dicestudiantes[estudiantes_chances]
             for codigo,_ in asignaturas_solicitadas_chances:
