@@ -1,8 +1,7 @@
-from Cargar_archivo import cargar1
 from cargar import cargar
 from rocV import voraz
-from dinamica import dinamica
 from dinamica1 import dinamica1
+from salida import salida
 from tkinter import *
 from tkinter import ttk
 
@@ -15,8 +14,8 @@ def capROC():
 def capVoraz():
     global resultados_capROC
     resVoraz = voraz(resultados_capROC)
-    print(resVoraz)
     mostrar_resultados(resVoraz)
+    salida(resVoraz)
 def capDinamica():
     memo_escogencias = {'definidos': {}, 'indefinidos': {}}
     resDinamica = dinamica1(resultados_capROC,memo_escogencias)
