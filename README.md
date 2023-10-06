@@ -1,20 +1,36 @@
-# P1ADAII
-Proyecto uno ADA II - Programacion dinamica y voraz 
+<p align='center'>
+  <img width='200' heigth='225' src='https://user-images.githubusercontent.com/62605744/171186764-43f7aae0-81a9-4b6e-b4ce-af963564eafb.png'>
+</p>
 
-Al realizar la ejecución de nuestro codigo (archivo Ventana_principal.py) se deberá iniciar la interfaz grafica 
+# Proyecto - Programación  Fuerza Bruta, Voráz y Dinámica
+- Proyecto de la asignatura Análisis y Diseño de Algoritmos 2
+- Semestre 2023-II
+- Profesores: Jesus Alexander Aranda, Juan Francisco Díaz
+
+## Autores
+- Johan Sebastián Tombe Campo - 2110051
+- César Alejandro Grijalba Zuñiga - 2110035
+- Marcelo Alejandro García Millán - 1941427
+- Alejandro Chará Garcia - 2010017
+  
+## Instrucciones
+
+Al realizar la ejecución de nuestro codigo (archivo Ventana_principal.py) se inicia la interfaz grafica
 en la cuál usted podrá visualizar 4 Botones:
 
-- Abrir archivo: este botón le permitirá seleccionar un archivo del tipo .roc donde
+- Abrir archivo: Este botón le permitirá seleccionar un archivo del tipo .roc o .psub donde
                  se encuentren las entradas y las mostrará en pantalla.
 
-- Fuerza bruta: este botón generará la respuesta con el algoritmo de fuerza bruta, mostrará 
+- Fuerza Bruta: Este botón generará la respuesta con el algoritmo de fuerza bruta, mostrará 
                 la respuesta en pantalla y generará un archivo de texto con extensión .txt.
                 Solo se deberá presionar.
 
-- Programación voraz: este botón generará la respuesta con el algoritmo voraz, mostrará 
-                la respuesta en pantalla y generará un archivo de texto con extensión.txt
-  
-- Programacion diamica: 
+- Programación Voraz: Este botón generará la respuesta con el algoritmo voraz, mostrará 
+                la respuesta en pantalla y generará un archivo de texto con extensión. 
+                Solo se deberá presionar.
+- Programación Dinámica: Este botón generará la respuesta con el algoritmo voraz, mostrará 
+                la respuesta en pantalla y generará un archivo de texto con extensión. 
+                Solo se deberá presionar.
 
 
 
