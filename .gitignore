@@ -1,4 +1,8 @@
 __pycache__/
+.vscode
 BateriaProyecto1/
-Cargar_archivo.py
-dinamica.py
+Pruebas/*
+Salidas/*
+rocFB_old.py
+rocPD_old.py
+VectorANumero.py
