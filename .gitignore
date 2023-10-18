@@ -1,8 +1,5 @@
 __pycache__/
 .vscode
-BateriaProyecto1/
-Pruebas/*
-Salidas/*
 rocFB_old.py
 rocPD_old.py
 VectorANumero.py
